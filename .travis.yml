@@ -1,0 +1,20 @@
+language: c
+dist: trusty
+
+compiler:
+  - clang
+  - gcc
+
+addons:
+  apt:
+    packages:
+      libsysfs-dev
+      libxml2
+      libxml2-dev
+      libssl-dev
+      libcurl3-dev
+
+script: rm -rf ./jitterentropy-library/* && ./autogen.sh && ./configure && make
+
+after_script: 
+        - make check || (cat tests/rngtesturandom.sh.log && cat tests/rngtestzero.sh.log && cat ./tests/test-suite.log)

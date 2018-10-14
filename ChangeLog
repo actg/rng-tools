@@ -1,0 +1,160 @@
+Tue May 09 2004  Henrique de Moraes Holschuh <hmh@debian.org>
+
+	* rngd.h, rngd.c, rngd_linux.c, rngd.8.in: Let the user
+	  set the fill watermark explicitly, using the new -W
+	  command line option.  This gets rid of RNDGETPOOL
+	  usage, and of a hardcoded (yuck) setting of 50%.
+	  This change will make rngd work right with 2.6 kernels.
+
+Thu Apr 15 2004  Jeff Garzik  <jgarzik@pobox.com>
+
+	* Makefile.am, configure.ac: put common code in a lib
+
+Tue Apr  6 2004  Henrique de Moraes Holschuh <hmh@debian.org>
+
+	* rngd.c, rngtest.c: Add Copyright and license notices
+	  to --version output, as per the GNU guidelines;
+	  Improve --help output a little.
+	* rngtest.c: Cleanup logging, and exit with status 1
+	  when input drains before the first block is tested.
+	* rngtest.1.in: Minor text change.
+
+	Preparatory cleanup for merging the multithreaded 
+	code later:
+	* rngd.c: split globals to rngd.h; split linux
+	  /dev/random functionality to rngd_linux.c;
+	  split entropy source (/dev/hwrandom) functionality
+	  to rngd_entsource.c.
+	* rngd.h, rngd_linux.h, rngd_linux.c,
+	  rngd_entsource.h, rngd_entsource.c: add
+
+Tue Apr  6 2004  Jeff Garzik  <jgarzik@pobox.com>
+
+	* Release version 1.1.
+
+Fri Apr  5 2004  Henrique de Moraes Holschuh <hmh@debian.org>
+
+	Add rngtest application:
+	* Makefile.am: build rngtest.
+	* configure.ac: process rngtest.1.in.
+	* stats.h/stats.c: add.  Statistics based on ideas
+	  from mtrngd.cpp by Martin Peck <coderman@peertech.org>
+	* exits.h: add.
+	* rngtest.c: add.
+	* contrib/Makefile.am: remove rngtest.c.
+	* contrib/rngtest.c: remove.
+	* AUTHORS: add myself
+
+Fri Apr  5 2004  Henrique de Moraes Holschuh <hmh@debian.org>
+
+	* rngd.c: use C99 initializers syntax, and stop
+	  compilation if build env. is incomplete
+	* fips.c, fips.h: s/FIPS_TESTS/N_FIPS_TESTS/ and
+	  remove uneeded includes
+	* fips.c: reword error message when build env. is 
+	  incomplete, and also reorder some includes
+	* AUTHORS, configure.ac, fips.c, fips.h, rngd.c,
+	  rngd.8.in: Update Jeff Garzik's email address, remove
+	  outdated email address for Philipp Rumpf, on request
+	  by Jeff Garzik.
+	* configure.ac, rngd.c: Change bugreport address to
+	  Jeff Garzik's.
+
+Fri Apr  4 2004  Henrique de Moraes Holschuh <hmh@debian.org>
+	* Makefile.am: Add header and CVS Id tag; Do some cosmetic
+	  reformating; Add rngd_SOURCES.
+	* rngd.c: move all FIPS test code to fips.h/fips.c
+	* fips.h, fips.c: add.  
+	  + Update comments with more FIPS 140-2 trivia. 
+	  + Use a context structure to hold the FIPS test data.
+	  + Implement FIPS 140-2 4.9 Continuous Run test.
+	  + Add constants with the test names and bitmask for
+	    easier statistic reporting later.
+
+Fri Apr  3 2004  Henrique de Moraes Holschuh <hmh@debian.org>
+
+	* autogen.sh: Add comments with the required versions
+	  of the tools.  Call aclocal before autoheader.  
+	  Use --copy for automake invocation.
+	  Identify as version 1.1-devel.
+	* configure.in: rename to configure.ac
+	* configure.ac: Add GPL header.  Convert to autoconf
+	  2.50 macros, enable AM_MAINTAINER_MODE and disable
+	  useless cross-platform compatiblilty glue that
+	  isn't used anywere
+	* acconfig.h: remove
+	* .cvsignore: update for new autotools
+
+Sat Jul  5 2003  Jeff Garzik  <jgarzik@pobox.com>
+
+	* contrib/rngtest.c, rngd.8.in: s/intel_rng/hwrandom/
+
+	Noticed by Olivier NICOLAS.
+
+Sat Jul  5 2003  Sami Farin  <safari@users.sourceforge.net>
+
+	"updated" to FIPS140-2 standard, it has a bit more
+	strict constraints on randomness.. about one out of
+	1000 blocks read from /dev/urandom causes a failure.
+
+	also a bugfix:
+	checks for EINTR in xread (maybe not necessary with
+	i810 driver?) 
+
+Sat Jul  5 2003  Jeff Garzik  <jgarzik@pobox.com>
+
+	Rename to rng-tools, release version 1.0.
+	Rename input device to /dev/hwrandom in code and docs.
+	Rename config.h to rng-tools-config.h.
+
+Tue Mar 27 2001  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* rngd.c: Include config.h, pick up VERSION from
+	configure.in, via config.h.
+
+Mon Mar 26 2001  Philipp Rumpf  <prumpf@mandrakesoft.com>
+
+	* rngd.c: fail before the daemon() call if we
+	can't open /dev/random or /dev/intel_rng
+
+Mon Mar 26 2001  Philipp Rumpf  <prumpf@mandrakesoft.com>
+
+	* rngd.c: bugfixes, allow --timeout=0 to disable
+	periodical writes.
+
+Fri Mar 23 2001  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* rngd.c: Remove unused var.
+	Include stdlib.h for exit(3).
+
+Fri Mar 23 2001  Philipp Rumpf  <prumpf@mandrakesoft.com>
+
+	* rngd.c: fix argp_parse arguments
+
+Fri Mar 23 2001  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* configure.in: Change version in cvs
+
+	* Makefile.am, configure.in, rngd.8.in: Add man page.
+
+	* rngd.c: Update --help output, listing defaults.
+	Move 'arguments' local to top of file, call it
+	default_arguments.
+
+Fri Mar 23 2001  Philipp Rumpf  <prumpf@mandrakesoft.com>
+
+	* rngd.c: fix mixed-up options
+
+Fri Mar 23 2001  Philipp Rumpf  <prumpf@mandrakesoft.com>
+
+	* rngd.c: add argp support
+	* rngd.c: make random write granularity, poll timeout
+	  command line options
+	* rngd.c: optionally daemonize
+
+Fri Mar 23 2001  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* Makefile.am, configure.in, contrib/Makefile.am,
+	  autogen.sh, NEWS, ChangeLog, AUTHORS, README,
+	  contrib/Makefile.am: Add autoconf/automake support.
+
