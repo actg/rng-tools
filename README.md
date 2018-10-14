@@ -36,7 +36,14 @@ libsysfs下载地址：https://sourceforge.net/projects/linux-diag/files/sysfsut
 
 #### rngd使用方法：
 
-- 如果你的硬件支持/dev/hwrng硬件真随机数，那么直接运行/sbin/rngd就可以自动默认设置为后台daemon程序，会增加系统的熵值，在很多例如加密的应用中非常有用。
+- 如果你的硬件支持/dev/hwrng硬件真随机数，那么直接运行就可以自动默认设置为后台daemon程序，会增加系统的熵值，在很多例如加密的应用中非常有用。
 
-- 如果你的硬件不支持/dev/hwrng真随机数，那么使用linux的伪随机数也可以，使用方法/sbin/rngd -r/dev/urandom
+```sh
+/sbin/rngd
+```
+
+- 如果你的硬件不支持/dev/hwrng真随机数，那么使用linux的伪随机数也可以，使用方法:
+```sh
+/sbin/rngd -r/dev/urandom
+```
 
