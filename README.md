@@ -10,14 +10,29 @@ rng-tools是从 https://github.com/nhorman/rng-tools.git 分支而来的，经�
 
 
 #### 编译方法
-先编译libsysfs库，由于rng-tools需要依赖这个包：
+##### 先编译libsysfs库，由于rng-tools需要依赖这个包：
 libsysfs下载地址：https://sourceforge.net/projects/linux-diag/files/sysfsutils/2.1.0/sysfsutils-2.1.0.tar.gz/download
 
+```bash
 #gnuzip sysfsutils-2.1.0.tar.gz
 #cd sysfsutils-2.1.0
 #./configure --host=arm-linux --prefix=$PWD/install
 #make
 #make install
+```
+至此，就会在sysfsutils-2.1.0/install目录下生成所有的库文件
+
+
+##### 再次编译rngd，注意sysfsutils-2.1.0和rng-tools-6.5在同一个目录
+```bash
+#cd rng-tools-6.5
+#export LDFLAGS=-L../sysfsutils-2.1.0/install/lib/
+#export CPPFLAGS=-I../sysfsutils-2.1.0/install/include
+#./configure --host=arm-linux --prefix=$PWD/install --without-libgcrypt --without-nistbeacon
+#make
+#make install
+```
+
 
 #### rngd使用方法：
 
