@@ -23,9 +23,11 @@ libsysfs下载地址：https://sourceforge.net/projects/linux-diag/files/sysfsut
 至此，就会在sysfsutils-2.1.0/install目录下生成所有的库文件
 
 
-##### 再次编译rngd，注意sysfsutils-2.1.0和rng-tools-6.5在同一个目录
-```bash
-#cd rng-tools-6.5
+### 接下来我们编译rng-tools,注意sysfsutils-2.1.0和rng-tools在同一个目录
+
+```sh
+#git clone https://github.com/actg/rng-tools.git
+#cd rng-tools
 #export LDFLAGS=-L../sysfsutils-2.1.0/install/lib/
 #export CPPFLAGS=-I../sysfsutils-2.1.0/install/include
 #./configure --host=arm-linux --prefix=$PWD/install --without-libgcrypt --without-nistbeacon
@@ -33,6 +35,7 @@ libsysfs下载地址：https://sourceforge.net/projects/linux-diag/files/sysfsut
 #make install
 ```
 
+至此，就会在sysfsutils-2.1.0/install目录下生成rngd可执行文件，使用方法如下：
 
 #### rngd使用方法：
 
@@ -45,5 +48,10 @@ libsysfs下载地址：https://sourceforge.net/projects/linux-diag/files/sysfsut
 - 如果你的硬件不支持/dev/hwrng真随机数，那么使用linux的伪随机数也可以，使用方法:
 ```sh
 /sbin/rngd -r/dev/urandom
+```
+
+#### 查看系统熵值是多少
+```sh
+cat /proc/sys/kernel/random/entropy_avail
 ```
 
